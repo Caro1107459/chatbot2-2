@@ -36,11 +36,71 @@
             margin: 10px 0;
             box-sizing: border-box;
         }
-    </style>
+            button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    .page-indicator {
+      margin-top: 20px;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+      color: #555;
+    }
+  </style>
+  <script>
+    let currentPage = 0;
+
+    function showPage(n) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach((page, index) => {
+        page.classList.toggle('active', index === n);
+      });
+      currentPage = n;
+      updatePageIndicator(n + 1, pages.length);
+    }
+
+    function nextPage() {
+      const pages = document.querySelectorAll('.page');
+      if (currentPage < pages.length - 1) {
+        showPage(currentPage + 1);
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+      }
+    }
+
+    function updatePageIndicator(current, total) {
+      document.querySelectorAll('.page-indicator').forEach(el => {
+        el.textContent = `第 ${current} 页 / 共 ${total} 页`;
+      });
+    }
+
+    window.onload = () => showPage(0);
+  </script>
 </head>
+
 <body>
 
-    <p class="title">Chatbot树洞</p>
+  <!-- 第1页 -->
+    <div class="page">
+     <p class="title">Chatbot树洞</p>
     <p class="italic">
         Hi! 欢迎参加我们的在线实验！<br>
         在这个实验中，您将与我们训练的机器人进行互动。首先，我们邀请您分享一段自己的亲身经历。我们的机器人会与您进行交流，帮助您更深入地探讨您的故事。最后，我们会请您填写一份简短的问卷，以帮助我们更好地理解您的体验。
@@ -54,34 +114,73 @@
 
     <div class="divider"></div>
 
-    <p class="bold">① 您在下面这张图中看到了什么，请把答案打在下方的空白框。</p>
-    <img src="happy.png" alt="实验图片" style="width:80%;max-width:400px;">
+    <p class="bold">① 您在下面这些图片中感受到了什么情绪？请把答案打在下方的空白框。</p>
+    <img src="happy2.jpg" alt="实验图片" style="width:80%;max-width:400px;">
     <input type="text" placeholder="请输入您的答案">
+    <div class="button-container">
+      <button onclick="nextPage()">下一页</button>
+    </div>
+    <p class="page-indicator"></p>
+  </div>
 
+  <!-- 第2页 -->
+<div class="page">
+  <div style="margin-top: 60px;"></div> <!-- 顶部空几行 -->
     <p class="bold">② 请您回忆在过去一周内，您亲身经历的一件<span style="color: #ED7A9B;">最开心</span>的事情。这件事或许会让您感到快乐/爱/感激/兴奋/自豪/满足/希望/激励/放松等。</p>
     <p>（您可以随意地将这件事输入在下方的空白框内）</p>
     <input type="text" placeholder="请输入您的经历">
+  <div class="button-container">
+    <button onclick="prevPage()">上一页</button>
+    <button onclick="nextPage()">下一页</button>
+  </div>
+  <p class="page-indicator"></p>
+</div>
 
-    <p class="bold">③ 请您根据实际情况，填写初始问卷（问卷完成后，请勿忘记点击<span class="red">“提交”</span>）：</p>
-    
+
+  <!-- 第3页 -->
+  <div class="page">
+      <p class="bold">③ 请您根据实际情况，填写初始问卷（问卷完成后，请勿忘记点击<span class="red">“提交”</span>）：</p>
     <!-- 嵌入问卷星页面 -->
     <iframe src="https://www.wjx.cn/vm/YDJSA6T.aspx#" style="width:80%;height:1000px;border:none;"></iframe>
 
-    <div class="divider"></div>
-
-    <p class="bold">④ 下面请向我们的聊天机器人小南讲述这件开心的事，并就这件事与她展开自由讨论，您可以向ta表达您的任何心情、任何想法（在下方聊天框输入并发送）。</p>
-    <p class="bold red">
-        注意1⚠️ 当您想要结束对话时，请向聊天框中直接发送您的实验编号，例如“14”。若未在最后发送实验编号，实验会被视为无效，您将无法领取酬金💰<br>
-        注意2⚠️ 您需要在与 chatbot 的对话聊天框内发送至少5条信息（不包含用于终止对话的编号），否则，您将无法领取酬金💰~建议聊天时长为5-15分钟~
+    <p class="italic red bold" style="text-align: center; margin-top: 15px;">
+      💡 提醒：问卷完成后，请务必点击 <span class="red">“提交”</span> 按钮，否则无法记录您的答卷。
     </p>
-    <!-- 嵌入交互页面 -->
+    <div class="button-container">
+      <button onclick="prevPage()">上一页</button>
+      <button onclick="nextPage()">下一页</button>
+    </div>
+    <p class="page-indicator"></p>
+  </div>
+
+  <!-- 第4页 -->
+  <div class="page">
+    <p class="bold">④ 下面请向我们的聊天机器人小南讲述这件糟糕的事，并就这件事与她展开自由讨论，您可以向ta表达您的任何心情、任何想法（在下方聊天框内输入并发送）。</p>
+    <p class="bold red">
+      注意1⚠️ 当您想要结束对话时，请向聊天框中直接发送您的实验编号，例如“14”。若未在最后发送实验编号，实验会被视为无效，您将无法领取酬金💰<br>
+      注意2⚠️ 您需要在与 chatbot 的对话聊天框内发送至少5条信息（不包含用于终止对话的编号），否则，您将无法领取酬金💰~建议聊天时长为5-15分钟~
+    </p>
     <iframe src="https://www.coze.cn/s/iUHjAuRe/" style="width:80%;height:800px;border:none;"></iframe>
-
-    <div class="divider"></div>
-
-    <p class="bold">⑤ 与机器人交互完成后，请您根据实际情况，如实填写以下问卷（问卷完成后，请勿忘记点击<span class="red">“提交”</span>）：</p>
-    <!-- 嵌入问卷星页面 -->
-    <iframe src="https://www.wjx.cn/vm/QN76aWa.aspx#" style="width:80%;height:1000px;border:none;"></iframe>
+    <div class="button-container">
+      <button onclick="prevPage()">上一页</button>
+      <button onclick="nextPage()">下一页</button>
+    </div>
+    <p class="page-indicator"></p>
+  </div>
+    
+<!-- 第5页 -->
+<div class="page">
+  <p class="bold">⑤ 与机器人交互完成后，请您根据实际情况，如实填写以下问卷（问卷完成后，请勿忘记点击<span class="red">“提交”</span>）：</p>
+  <iframe src="https://www.wjx.cn/vm/QN76aWa.aspx#" style="width:80%;height:1000px;border:none;"></iframe>
+  <p class="italic red bold" style="text-align: center; margin-top: 15px;">
+    💡 提醒：问卷完成后，请务必点击 <span class="red">“提交”</span> 按钮，否则无法记录您的答卷。
+  </p>
+  <p style="text-align: center; font-weight: bold; margin-top: 20px;">实验已结束，感谢您的配合！</p>
+  <div class="button-container">
+    <button onclick="prevPage()">上一页</button>
+  </div>
+  <p class="page-indicator"></p>
+</div>
 
 </body>
 </html>
